@@ -1,1 +1,1 @@
-# Temporal-Distribution-of-Clusters-of-Traders-inFX-Market
+# Temporal Distribution of Clusters of Traders in FX Market
