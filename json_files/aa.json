@@ -1,0 +1,18 @@
+{'dapra_howmanyrows': 0,
+ 'dapra_path': 'C:\\Users\\wojciech\\Desktop\\Wojciechtmp\\SVN\\DAPRA_dynamic_clusters_cutoff_1000\\fixedDAPRA_dynamic_clusters_cutoff_1000.csv',
+ 'cluster_dates_path': 'C:\\Users\\wojciech\\Desktop\\Wojciechtmp\\SVN\\',
+ 'prices_path': 'C:\\Users\\wojciech\\Desktop\\Wojciechtmp\\SVN\\FudgeRaw1SecPrices.csv',
+ 'cluster_cut': 1000,
+ 'cluster_window': '6months_2weeks',
+ 'cluster_is_dynamic': 0,
+ 'cluster_static': 200,
+ 'cluster_algo': 'infomap',
+ 'cluster_truncate_cluster_cardinality': 1,
+ 'cluster_resolution': 1440,
+ 'aa_lr': 1,
+ 'aa_losstype': 'LS',
+ 'aa_rho': 1,
+ 'aa_rhobis': 1,
+ 'aa_u': 1,
+ 'aa_ubis': 1
+}

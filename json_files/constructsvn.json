@@ -1,0 +1,14 @@
+{
+"closeTimeColumnName": "QdfCloseTime",
+    "openTimeColumnName": "QdfOpenTime",
+    "df_path": "data\\Fudged_EURUSDTrades_2014To2016.csv",
+  "lower_time_cutoff":6,
+"upper_time_cutoff":18,
+"time_resolution":15,
+"min_number_trades_cutoff":100,
+"symbol":"EUR/USD",
+"imbalance_ratio_threshold":0.05,
+"all_partition":"True",
+"lower_volume_quantile_cutoff":0,
+"upper_volume_quantile_cutoff":0
+}
