@@ -72,45 +72,6 @@ def f(n, k):
 
     return tau_solution
 
-'''
-def proportion_vector_evans_estimation(name, minutes, cut, window="6months_2weeks",stratname="infomap"):
-    eurusdcommunities = get_community_files(name, minutes, cut, window,stratname)
-
-
-    eurusdcommunities.sort(key=lambda x: int(x.split('_')[10]))
-    result = []
-    M = 0
-
-    for name in eurusdcommunities:
-        d = pd.read_csv('output\\dynamic_clusters\\' + name)
-        unique_elements, counts_elements = np.unique(d.groupby('cluster').count().sort_values('trader').values.ravel(),
-                                                     return_counts=True)
-        try:
-            M = max(M, unique_elements[-1])
-        except:
-            M = max(M, 0)
-
-    for name in eurusdcommunities:
-        d = pd.read_csv('output\\dynamic_clusters\\' + name)
-        unique_elements, counts_elements = np.unique(d.groupby('cluster').count().sort_values('trader').values.ravel(),
-                                                     return_counts=True)
-
-        dictionary = dict(zip(unique_elements, counts_elements))
-        partitionvector = [dictionary[i] if i in unique_elements else 0 for i in range(M + 1)]
-        result.append(partitionvector)
-    dataframe = pd.DataFrame(result)
-    dataframe.iloc[:, 1] = 0
-
-    K = dataframe.sum(axis=1).values
-    N = dataframe.dot(np.arange(dataframe.shape[1])).values
-
-    theta = np.array([f(N[i], K[i]) for i in range(len(K))]).ravel()
-
-    return dataframe, K, N, theta
-
-
-#d, k, n, theta = proportion_vector_evans_estimation("EURUSD", 10, 100)
-'''
 
 
 def proportion_vector_evans_estimation(name, minutes, cut, window="6months_2weeks",stratname="infomap"):
@@ -810,3 +771,27 @@ def alluvial_try(name2, minutes, cut, window, stratname, num,truncate=1):
         plt.show()
         fig1.savefig('history.png')
         fig1.show()
+
+
+def get_dynamic_clusters_start_end_dates(window, stratname="infomap"):
+    for cut in tqdm_notebook([100, 500, 1000]):
+        df1440 = pd.read_csv('output\\tosvn\\davidnewtosvn_symbol_EURUSD_delta_1440mins' + str(cut) + 'cut.csv',
+                             parse_dates=['QdfTime'], infer_datetime_format=True)
+        cutday = df1440.QdfTime[1]
+        cutdaystop = df1440.QdfTime[len(df1440) - 2]
+        df1440 = df1440[(df1440.QdfTime < cutdaystop) & (df1440.QdfTime >= cutday)]
+
+        files = get_community_files("EURUSD", 1440, cut, window, stratname)
+        files.sort(key=lambda x: int(x.split('_')[-3]))
+        out = []
+
+        for x in files:
+            start = int(x.split("_")[10])
+            stop = int(x.split("_")[11])
+            out.append((df1440.QdfTime[start], df1440.QdfTime[stop]))
+
+        df = pd.DataFrame.from_records(out, columns=['start', 'end'])
+        df['shift_start'] = df.start.shift(-1)
+        df.to_csv(
+            "output\\dynamic_clusters\\clusters_start_end_dates_dynamic_cut_" + str(cut) + '_' + window + '_cut.csv',
+            index=False)
